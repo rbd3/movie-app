@@ -25,7 +25,7 @@ export const MoviesListContainer = styled.div`
     transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     padding: 1%;
     width: 95%;
     height: auto;
@@ -61,6 +61,11 @@ export const MoviesListContainer = styled.div`
     width: 100%;
     height: 60vh;
     border-radius: 8px;
+
+    @media (max-width: 768px) {
+      width: 95%;
+      height: 60vh;
+    }
   }
 
   .movie-name {
