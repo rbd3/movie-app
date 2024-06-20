@@ -1,16 +1,15 @@
-
-import './App.css'
-import MoviesList from './components/MovieList'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import MovieList from './components/MovieList';
+import MovieDetails from './components/MovieDetails';
 
 function App() {
- 
-
   return (
-    <>
-    <h1>title</h1>
-     <MoviesList />
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<MovieList />} />
+      <Route path="/MovieDetails/:movieId" element={<MovieDetails />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
