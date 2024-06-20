@@ -101,8 +101,7 @@ export const FilterContainer = styled.div`
   }
 
   select {
-    font-size: 0.8rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    font-size: 1rem;
+    
   }
 `;
