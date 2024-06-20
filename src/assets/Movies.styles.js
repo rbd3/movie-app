@@ -1,4 +1,3 @@
-
 import styled from 'styled-components';
 
 export const MoviesListContainer = styled.div`
@@ -73,11 +72,37 @@ export const MoviesListContainer = styled.div`
     margin-bottom: 0;
   }
 
-  .movie-rating {
+  .movie-attribute {
     margin-left: auto;
     font-size: 1.2rem;
     text-align: center;
     width: 100%;
     font-weight: bold;
+  }
+`;
+
+export const FilterContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  font-size: 2rem;
+  padding: 1rem;
+
+  select {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  select {
+    font-size: 0.8rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
   }
 `;

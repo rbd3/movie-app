@@ -70,8 +70,8 @@ export const Nav = styled.nav`
 
   @media only screen and (max-width: 768px) {
     li {
-      font-size: 2.5rem;
-      margin-right: 2%;
+      font-size: 1.5rem;
+      gap: 0;
     }
   }
 `;
