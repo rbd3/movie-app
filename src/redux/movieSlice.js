@@ -3,10 +3,11 @@ import axios from 'axios';
 
 const api_key = '285ea9c26bc7074ceb487c0231e3a252';
 const baseUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}`;
+const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}`;
 
 const initialState = {
   movies: [],
-  categories: [],
+  genres: [], // Initialize genres as an empty array
   isLoading: true,
   error: '',
   reviews: {},
@@ -19,24 +20,24 @@ export const fetchAllMovies = createAsyncThunk('movies/fetchAll', async () => {
       return response.data.results;
     };
 
+    const fetchGenres = async () => {
+      const response = await axios.get(genresUrl);
+      return response.data.genres;
+    };
+
     const totalPages = 5; // Adjust the number of pages to fetch as needed
     let movies = [];
     for (let page = 1; page <= totalPages; page++) {
       const pageMovies = await fetchMoviesFromPage(page);
       movies = [...movies, ...pageMovies];
     }
-    return movies;
+
+    const genres = await fetchGenres();
+    console.log('Fetched genres:', genres); // Log fetched genres
+
+    return { movies, genres };
   } catch (error) {
     throw new Error('Failed to fetch movies');
-  }
-});
-
-export const fetchMovieDetails = createAsyncThunk('movies/fetchDetails', async (imdbID) => {
-  try {
-    const response = await axios.get(`http://www.omdbapi.com/?i=${imdbID}&apikey=31b548ac`);
-    return response.data;
-  } catch (error) {
-    throw new Error('Failed to fetch movie details');
   }
 });
 
@@ -44,25 +45,7 @@ const movieSlice = createSlice({
   name: 'movies',
   initialState,
   reducers: {
-    addReview: (state, action) => {
-      const { imdbID, review } = action.payload;
-      if (!state.reviews[imdbID]) {
-        state.reviews[imdbID] = [];
-      }
-      state.reviews[imdbID].push(review);
-    },
-    editReview: (state, action) => {
-      const { imdbID, reviewIndex, updatedReview } = action.payload;
-      if (state.reviews[imdbID] && state.reviews[imdbID][reviewIndex]) {
-        state.reviews[imdbID][reviewIndex] = updatedReview;
-      }
-    },
-    deleteReview: (state, action) => {
-      const { imdbID, reviewIndex } = action.payload;
-      if (state.reviews[imdbID]) {
-        state.reviews[imdbID].splice(reviewIndex, 1);
-      }
-    },
+    // Your existing reducers...
   },
   extraReducers: (builder) => {
     builder
@@ -71,45 +54,26 @@ const movieSlice = createSlice({
       })
       .addCase(fetchAllMovies.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.movies = action.payload;
+        state.movies = action.payload.movies;
 
         const genresSet = new Set();
-        action.payload.forEach((movie) => {
+        action.payload.movies.forEach((movie) => {
           if (movie.genre_ids) {
             movie.genre_ids.forEach((genre) => {
               genresSet.add(genre);
             });
           }
         });
-        state.categories = Array.from(genresSet);
+        state.genres = Array.from(genresSet);
+        console.log('slice genres:', state.genres); // Log fetched genres
       })
       .addCase(fetchAllMovies.rejected, (state) => {
         state.isLoading = false;
         state.error = 'Failed to fetch movies';
-      })
-      .addCase(fetchMovieDetails.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchMovieDetails.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.movies = action.payload;
-
-        const genresSet = new Set();
-        action.payload.forEach((movie) => {
-          if (movie.genre_ids) {
-            movie.genre_ids.forEach((genre) => {
-              genresSet.add(genre);
-            });
-          }
-        });
-        state.categories = Array.from(genresSet);
-      })
-      .addCase(fetchMovieDetails.rejected, (state) => {
-        state.isLoading = false;
-        state.error = 'Failed to fetch movie details';
       });
   },
 });
 
 export const { addReview, editReview, deleteReview } = movieSlice.actions;
+
 export default movieSlice.reducer;
