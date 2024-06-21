@@ -4,6 +4,7 @@ import MovieList from './components/MovieList';
 import MovieDetails from './components/MovieDetails';
 import MovieGenres from './components/MovieGenres';
 import Menu from './components/Menu';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/" element={<MovieList />} />
       <Route path="/MovieDetails/:id" element={<MovieDetails />} />
     </Routes>
+    <Footer />
     </>
   );
 }
