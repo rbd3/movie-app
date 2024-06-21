@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllMovies, searchMovies } from '../redux/movieSlice';
 import { MoviesListContainer, FilterContainer, SearchContainer, PaginationContainer } from '../assets/Movies.styles';
