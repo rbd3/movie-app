@@ -1,14 +1,12 @@
 .footer {
-    display: flex;
-   
-    text-align: center;
-    align-items: center;
-    
-    width: 217%;
-    margin-top: 10%;
-  }
-  .footer p {
-    margin-left: 10%;
-  }
-  
-  
+  display: flex;
+  text-align: center;
+  align-items: center;
+  width: 217%;
+  margin-top: 10%;
+}
+
+.footer p {
+  margin-left: 10%;
+}
+
