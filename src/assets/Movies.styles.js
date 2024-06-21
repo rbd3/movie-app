@@ -145,3 +145,28 @@ export const SearchContainer = styled.div`
     }
   }
 `;
+
+
+export const PaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+
+  button {
+    background: none;
+    background-color: #fc5193;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    cursor: pointer;
+
+    &.active {
+      background-color: white;
+      
+    }
+
+    &:hover:not(.active) {
+      background-color: #f0f0f0;
+    }
+  }
+`;

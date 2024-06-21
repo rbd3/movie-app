@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAllMovies, searchMovies } from '../redux/movieSlice';
-import { MoviesListContainer, FilterContainer, SearchContainer } from '../assets/Movies.styles';
+import { MoviesListContainer, FilterContainer, SearchContainer, PaginationContainer } from '../assets/Movies.styles';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,6 +11,8 @@ const MoviesList = () => {
   const navigate = useNavigate();
   const [sortCriteria, setSortCriteria] = useState('rating');
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
 
   useEffect(() => {
     dispatch(fetchAllMovies());
@@ -63,6 +65,22 @@ const MoviesList = () => {
 
   const sortedMovies = sortMovies(movies);
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentMovies = sortedMovies.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(sortedMovies.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <MoviesListContainer>
       <FilterContainer>
@@ -85,7 +103,7 @@ const MoviesList = () => {
       </FilterContainer>
       <div className="movies-list">
         <div className="movies-container">
-          {sortedMovies.map((movie) => (
+          {currentMovies.map((movie) => (
             <div key={movie.id} className="movie-item">
               <button
                 type="button"
@@ -112,6 +130,15 @@ const MoviesList = () => {
           ))}
         </div>
       </div>
+      <PaginationContainer>
+        <button onClick={handlePrevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span>Page {currentPage} of {Math.ceil(sortedMovies.length / itemsPerPage)}</span>
+        <button onClick={handleNextPage} disabled={currentPage === Math.ceil(sortedMovies.length / itemsPerPage)}>
+          Next
+        </button>
+      </PaginationContainer>
     </MoviesListContainer>
   );
 };
