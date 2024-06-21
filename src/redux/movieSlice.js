@@ -3,10 +3,12 @@ import axios from 'axios';
 
 const api_key = '285ea9c26bc7074ceb487c0231e3a252';
 const baseUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}`;
+const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}`;
+const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}`;
 
 const initialState = {
   movies: [],
-  categories: [],
+  genres: [],
   isLoading: true,
   error: '',
   reviews: {},
@@ -19,51 +21,38 @@ export const fetchAllMovies = createAsyncThunk('movies/fetchAll', async () => {
       return response.data.results;
     };
 
-    const totalPages = 5; // Adjust the number of pages to fetch as needed
+    const fetchGenres = async () => {
+      const response = await axios.get(genresUrl);
+      return response.data.genres;
+    };
+
+    const totalPages = 5;
     let movies = [];
     for (let page = 1; page <= totalPages; page++) {
       const pageMovies = await fetchMoviesFromPage(page);
       movies = [...movies, ...pageMovies];
     }
-    return movies;
+
+    const genres = await fetchGenres();
+    return { movies, genres };
   } catch (error) {
     throw new Error('Failed to fetch movies');
   }
 });
 
-export const fetchMovieDetails = createAsyncThunk('movies/fetchDetails', async (imdbID) => {
+export const searchMovies = createAsyncThunk('movies/search', async (query) => {
   try {
-    const response = await axios.get(`http://www.omdbapi.com/?i=${imdbID}&apikey=31b548ac`);
-    return response.data;
+    const response = await axios.get(`${searchUrl}&query=${query}`);
+    return response.data.results;
   } catch (error) {
-    throw new Error('Failed to fetch movie details');
+    throw new Error('Failed to search movies');
   }
 });
 
 const movieSlice = createSlice({
   name: 'movies',
   initialState,
-  reducers: {
-    addReview: (state, action) => {
-      const { imdbID, review } = action.payload;
-      if (!state.reviews[imdbID]) {
-        state.reviews[imdbID] = [];
-      }
-      state.reviews[imdbID].push(review);
-    },
-    editReview: (state, action) => {
-      const { imdbID, reviewIndex, updatedReview } = action.payload;
-      if (state.reviews[imdbID] && state.reviews[imdbID][reviewIndex]) {
-        state.reviews[imdbID][reviewIndex] = updatedReview;
-      }
-    },
-    deleteReview: (state, action) => {
-      const { imdbID, reviewIndex } = action.payload;
-      if (state.reviews[imdbID]) {
-        state.reviews[imdbID].splice(reviewIndex, 1);
-      }
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllMovies.pending, (state) => {
@@ -71,45 +60,36 @@ const movieSlice = createSlice({
       })
       .addCase(fetchAllMovies.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.movies = action.payload;
+        state.movies = action.payload.movies;
 
         const genresSet = new Set();
-        action.payload.forEach((movie) => {
+        action.payload.movies.forEach((movie) => {
           if (movie.genre_ids) {
             movie.genre_ids.forEach((genre) => {
               genresSet.add(genre);
             });
           }
         });
-        state.categories = Array.from(genresSet);
+        state.genres = Array.from(genresSet);
       })
       .addCase(fetchAllMovies.rejected, (state) => {
         state.isLoading = false;
         state.error = 'Failed to fetch movies';
       })
-      .addCase(fetchMovieDetails.pending, (state) => {
+      .addCase(searchMovies.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchMovieDetails.fulfilled, (state, action) => {
+      .addCase(searchMovies.fulfilled, (state, action) => {
         state.isLoading = false;
         state.movies = action.payload;
-
-        const genresSet = new Set();
-        action.payload.forEach((movie) => {
-          if (movie.genre_ids) {
-            movie.genre_ids.forEach((genre) => {
-              genresSet.add(genre);
-            });
-          }
-        });
-        state.categories = Array.from(genresSet);
       })
-      .addCase(fetchMovieDetails.rejected, (state) => {
+      .addCase(searchMovies.rejected, (state) => {
         state.isLoading = false;
-        state.error = 'Failed to fetch movie details';
+        state.error = 'Failed to search movies';
       });
   },
 });
 
 export const { addReview, editReview, deleteReview } = movieSlice.actions;
+
 export default movieSlice.reducer;
