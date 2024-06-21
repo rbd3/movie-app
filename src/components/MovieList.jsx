@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchAllMovies } from '../redux/movieSlice';
-import { MoviesListContainer, FilterContainer } from '../assets/Movies.styles';
+import { fetchAllMovies, searchMovies } from '../redux/movieSlice';
+import { MoviesListContainer, FilterContainer, SearchContainer } from '../assets/Movies.styles';
 import { BsArrowRightCircle } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +10,7 @@ const MoviesList = () => {
   const { movies, isLoading, error } = useSelector((state) => state.movies);
   const navigate = useNavigate();
   const [sortCriteria, setSortCriteria] = useState('rating');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     dispatch(fetchAllMovies());
@@ -21,6 +22,22 @@ const MoviesList = () => {
 
   const handleSortChange = (event) => {
     setSortCriteria(event.target.value);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim() !== '') {
+      dispatch(searchMovies(searchQuery));
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearchSubmit();
+    }
   };
 
   const sortMovies = (movies) => {
@@ -49,12 +66,22 @@ const MoviesList = () => {
   return (
     <MoviesListContainer>
       <FilterContainer>
-        <span>Sort By:</span>
+        <span>Sort By</span>
         <select onChange={handleSortChange}>
           <option value="rating">Rating</option>
           <option value="release_date">Release Date</option>
           <option value="popularity">Popularity</option>
         </select>
+        <SearchContainer>
+          <input 
+            type="text" 
+            value={searchQuery} 
+            onChange={handleSearchChange} 
+            onKeyDown={handleKeyDown} 
+            placeholder="Search movies..."
+          />
+          <button onClick={handleSearchSubmit}>Search</button>
+        </SearchContainer>
       </FilterContainer>
       <div className="movies-list">
         <div className="movies-container">

@@ -3,11 +3,12 @@ import axios from 'axios';
 
 const api_key = '285ea9c26bc7074ceb487c0231e3a252';
 const baseUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${api_key}`;
+const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}`;
 const genresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}`;
 
 const initialState = {
   movies: [],
-  genres: [], // Initialize genres as an empty array
+  genres: [],
   isLoading: true,
   error: '',
   reviews: {},
@@ -25,7 +26,7 @@ export const fetchAllMovies = createAsyncThunk('movies/fetchAll', async () => {
       return response.data.genres;
     };
 
-    const totalPages = 5; // Adjust the number of pages to fetch as needed
+    const totalPages = 5;
     let movies = [];
     for (let page = 1; page <= totalPages; page++) {
       const pageMovies = await fetchMoviesFromPage(page);
@@ -33,20 +34,25 @@ export const fetchAllMovies = createAsyncThunk('movies/fetchAll', async () => {
     }
 
     const genres = await fetchGenres();
-    console.log('Fetched genres:', genres); // Log fetched genres
-
     return { movies, genres };
   } catch (error) {
     throw new Error('Failed to fetch movies');
   }
 });
 
+export const searchMovies = createAsyncThunk('movies/search', async (query) => {
+  try {
+    const response = await axios.get(`${searchUrl}&query=${query}`);
+    return response.data.results;
+  } catch (error) {
+    throw new Error('Failed to search movies');
+  }
+});
+
 const movieSlice = createSlice({
   name: 'movies',
   initialState,
-  reducers: {
-    // Your existing reducers...
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllMovies.pending, (state) => {
@@ -65,11 +71,21 @@ const movieSlice = createSlice({
           }
         });
         state.genres = Array.from(genresSet);
-        console.log('slice genres:', state.genres); // Log fetched genres
       })
       .addCase(fetchAllMovies.rejected, (state) => {
         state.isLoading = false;
         state.error = 'Failed to fetch movies';
+      })
+      .addCase(searchMovies.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(searchMovies.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.movies = action.payload;
+      })
+      .addCase(searchMovies.rejected, (state) => {
+        state.isLoading = false;
+        state.error = 'Failed to search movies';
       });
   },
 });
