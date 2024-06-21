@@ -84,7 +84,7 @@ This application, known as the **Movie App**, is a responsive movie search and r
 <!-- LIVE DEMO -->
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo](https://movies-app-87w0.onrender.com)
+- [Live Demo](https://movie-app2-t57q.onrender.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
