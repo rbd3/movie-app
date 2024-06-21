@@ -77,14 +77,14 @@ This application, known as the **Movie App**, is a responsive movie search and r
 - **User can see the movie detail**
 - **User can search for movie**
 - **User can sort movies**
+- 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LIVE DEMO -->
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo](https://tv-show-metrics.onrender.com)
-- [Video Walkthrough](https://www.loom.com/share/3f2e5cf1460e460c9a15ecd81cca62a0?sid=343f1613-2e7b-4dfa-9257-d551870ad19e)
+- [Live Demo](https://movies-app-87w0.onrender.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -103,7 +103,7 @@ This application, known as the **Movie App**, is a responsive movie search and r
 > Clone this repository to your desired folder:<br>
 > <code>cd your-folder</code>
 ```sh
-git clone https://github.com/rbd3/metrics-webapp.git
+git clone https://github.com/rbd3/movie-app.git
 ```
 
 ### Install
@@ -148,7 +148,9 @@ Find the guide [here](https://github.com/microverseinc/linters-config/tree/maste
 <!-- FUTURE FEATURES -->
 
 ## 🔭 Future Features <a name="future-features"></a>
-- Adding additional information for each TV show.
+- **Adding additional information for each TV show**
+- **User can add favorites list**
+- **User can movies by genre**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -158,7 +160,7 @@ Find the guide [here](https://github.com/microverseinc/linters-config/tree/maste
 
 Contributions, issues, and feature requests are welcome!
 
-Feel free to check the [issues page](https://github.com/rbd3/metrics-webapp/issues).
+Feel free to check the [issues page](https://github.com/rbd3/movie-app/issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -174,7 +176,7 @@ If you like this project give it a rating.
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-> - I express my gratitude to Microverse reviewer team.
+> - I express my gratitude to TMDB API developer team.
 > - credit: credit to [Nelson Sakwa](https://www.behance.net/sakwadesignstudio) the author of the [original design](https://www.behance.net/gallery/31579789/Ballhead-App-(Free-PSDs))
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -184,7 +186,5 @@ If you like this project give it a rating.
 ## 📝 License <a name="license"></a>
 
 - This project is [MIT](https://github.com/YoutLone/MovieVerse/blob/main/LICENSE) licensed.
-- This project is [creativecommons](https://creativecommons.org/licenses/by-nc/4.0/) licensed.
-  <a href='https://pngtree.com/free-backgrounds'>free background photos from pngtree.com/</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
