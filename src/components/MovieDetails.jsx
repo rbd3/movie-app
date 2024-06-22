@@ -38,7 +38,6 @@ function MovieDetails() {
   const movie = movies.find((movie) => movie.id.toString() === id);
 
   if (!movie) {
-    console.log(`Movie with id ${id} not found in movies array:`, movies);
     return <h2>Movie not found</h2>;
   }
 
