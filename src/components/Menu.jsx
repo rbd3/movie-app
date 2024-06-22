@@ -27,8 +27,6 @@ const Menu = () => {
             </ul>
           </Container>
         </Header>
-  
-        {/* Outlet for rendering nested routes */}
         <Outlet />
       </>
     );
