@@ -9,7 +9,7 @@ export const MoviesListContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr;
     grid-row-gap: 0.08%;
-    margin-bottom: 0%;
+    margin-bottom: 2%;
     
     @media (min-width: 768px) {
       grid-template-columns: repeat(4, 1fr);
@@ -157,7 +157,7 @@ export const PaginationContainer = styled.div`
     background-color: #fc5193;
     border: 1px solid #ccc;
     padding: 0.5rem 1rem;
-    margin: 0 0.25rem;
+    margin: 0 5rem;
     cursor: pointer;
 
     &.active {

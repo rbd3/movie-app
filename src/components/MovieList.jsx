@@ -134,7 +134,7 @@ const MoviesList = () => {
         <button onClick={handlePrevPage} disabled={currentPage === 1}>
           Previous
         </button>
-        <span>Page {currentPage} of {Math.ceil(sortedMovies.length / itemsPerPage)}</span>
+        
         <button onClick={handleNextPage} disabled={currentPage === Math.ceil(sortedMovies.length / itemsPerPage)}>
           Next
         </button>
