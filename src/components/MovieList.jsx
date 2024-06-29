@@ -84,7 +84,7 @@ const MoviesList = () => {
   return (
     <MoviesListContainer>
       <FilterContainer>
-        <span>Sort By</span>
+        <span>Sort</span>
         <select onChange={handleSortChange}>
           <option value="rating">Rating</option>
           <option value="release_date">Release Date</option>
