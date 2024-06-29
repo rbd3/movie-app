@@ -10,6 +10,7 @@ export const MoviesListContainer = styled.div`
     grid-template-columns: 1fr;
     grid-row-gap: 0.08%;
     margin-bottom: 2%;
+    gap: 0.5%;
     
     @media (min-width: 768px) {
       grid-template-columns: repeat(4, 1fr);
