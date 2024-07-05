@@ -52,7 +52,7 @@ function MovieDetails() {
     genre_ids,
   } = movie;
 
-  // Map genre_ids to actual genre names using genres fetched
+  // Map genre_ids to actual genre names
   const movieGenres = genre_ids.map((genre_id) =>
     genres.find((genre) => genre.id === genre_id)?.name
   );
