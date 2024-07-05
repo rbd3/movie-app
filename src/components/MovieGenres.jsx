@@ -48,7 +48,7 @@ function MovieDetails() {
     genres.find((genre) => genre.id === genre_id)?.name
   );
 
-  console.log('Mapped movieGenres:', movieGenres); // Log mapped movieGenres
+  console.log('Mapped movieGenres:', movieGenres);
 
   return (
     <div className="movie-details">
