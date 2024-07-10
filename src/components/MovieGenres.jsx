@@ -28,7 +28,6 @@ function MovieDetails() {
 
   // Handle case where movie is not found
   if (!movie) {
-    console.log(`Movie with id ${id} not found in movies array:`, movies);
     return <h2>Movie not found</h2>;
   }
 
